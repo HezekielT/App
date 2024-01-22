@@ -29,6 +29,7 @@ type SuccessCallback = (file?: File) => void;
 function navigateToStartStepIfScanFileCannotBeRead(
     receiptFilename: string,
     receiptPath: string,
+    receiptObject: File,
     onSuccess: SuccessCallback,
     requestType: ValueOf<typeof CONST.IOU.REQUEST_TYPE>,
     iouType: ValueOf<typeof CONST.IOU.TYPE>,
@@ -40,6 +41,12 @@ function navigateToStartStepIfScanFileCannotBeRead(
     }
 
     const onFailure = () => {
+        if(receiptObject) {
+            const source = URL.createObjectURL(receiptObject);
+            IOU.setMoneyRequestReceipt(transactionID, source, receiptObject.name, true, receiptObject);
+            onSuccess(receiptObject);
+            return;
+        }
         IOU.setMoneyRequestReceipt(transactionID, '', '', true);
         if (requestType === CONST.IOU.REQUEST_TYPE.MANUAL) {
             Navigation.navigate(ROUTES.MONEY_REQUEST_STEP_SCAN.getRoute(CONST.IOU.ACTION.CREATE, iouType, transactionID, reportID, Navigation.getActiveRouteWithoutParams()));

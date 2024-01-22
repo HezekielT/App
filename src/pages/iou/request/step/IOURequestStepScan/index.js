@@ -152,7 +152,7 @@ function IOURequestStepScan({
 
         // Store the receipt on the transaction object in Onyx
         const source = URL.createObjectURL(file);
-        IOU.setMoneyRequestReceipt(transactionID, source, file.name, action !== CONST.IOU.ACTION.EDIT);
+        IOU.setMoneyRequestReceipt(transactionID, source, file.name, action !== CONST.IOU.ACTION.EDIT, file);
 
         if (action === CONST.IOU.ACTION.EDIT) {
             updateScanAndNavigate(file, source);

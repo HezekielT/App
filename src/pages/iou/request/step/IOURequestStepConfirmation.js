@@ -144,8 +144,8 @@ function IOURequestStepConfirmation({
             setReceiptFile(receipt);
         };
 
-        IOUUtils.navigateToStartStepIfScanFileCannotBeRead(receiptFilename, receiptPath, onSuccess, requestType, iouType, transactionID, reportID);
-    }, [receiptPath, receiptFilename, requestType, iouType, transactionID, reportID]);
+        IOUUtils.navigateToStartStepIfScanFileCannotBeRead(receiptFilename, receiptPath, transaction.fileSource, onSuccess, requestType, iouType, transactionID, reportID);
+    }, [receiptPath, receiptFilename, requestType, iouType, transactionID, reportID, transaction.fileSource]);
 
     useEffect(() => {
         const policyExpenseChat = _.find(participants, (participant) => participant.isPolicyExpenseChat);

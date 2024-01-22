@@ -265,11 +265,13 @@ function setMoneyRequestParticipants_temporaryForRefactor(transactionID, partici
  * @param {String} source
  * @param {String} filename
  * @param {Boolean} isDraft
+ * @param {Object} file
  */
-function setMoneyRequestReceipt(transactionID, source, filename, isDraft) {
+function setMoneyRequestReceipt(transactionID, source, filename, isDraft, file = {}) {
     Onyx.merge(`${isDraft ? ONYXKEYS.COLLECTION.TRANSACTION_DRAFT : ONYXKEYS.COLLECTION.TRANSACTION}${transactionID}`, {
         receipt: {source},
         filename,
+        fileSource: file
     });
 }
 
