@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useMemo, useRef} from 'react';
 import {View} from 'react-native';
 import type {OnyxEntry} from 'react-native-onyx';
-import Onyx, {withOnyx, useOnyx} from 'react-native-onyx';
+import Onyx, {useOnyx, withOnyx} from 'react-native-onyx';
 import type {ValueOf} from 'type-fest';
 import OptionsListContextProvider from '@components/OptionListContextProvider';
 import useActiveWorkspace from '@hooks/useActiveWorkspace';
@@ -66,7 +66,6 @@ type AuthScreensProps = {
     /** The last Onyx update ID was applied to the client */
     initialLastUpdateIDAppliedToClient: OnyxEntry<number>;
 };
-
 
 const loadReportAttachments = () => require<ReactComponentModule>('../../../pages/home/report/ReportAttachments').default;
 const loadValidateLoginPage = () => require<ReactComponentModule>('../../../pages/ValidateLoginPage').default;
@@ -213,7 +212,7 @@ function AuthScreens({lastOpenedPublicRoomID, initialLastUpdateIDAppliedToClient
         () => getOnboardingModalScreenOptions(isSmallScreenWidth, styles, StyleUtils, isMediumOrLargerScreenWidth),
         [StyleUtils, isSmallScreenWidth, isMediumOrLargerScreenWidth, styles],
     );
-    
+
     let initialReportID: string | undefined;
     const isInitialRender = useRef(true);
     if (isInitialRender.current) {
