@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useMemo, useRef, useState} from 'react';
 import type {LayoutChangeEvent, StyleProp, ViewStyle} from 'react-native';
 import {ActivityIndicator, PixelRatio, StyleSheet, View} from 'react-native';
 import {useSharedValue} from 'react-native-reanimated';
@@ -91,6 +91,7 @@ function Lightbox({isAuthTokenRequired = false, uri, onScaleChanged: onScaleChan
     const hasSiblingCarouselItems = isUsedInCarousel && !isSingleCarouselItem;
     const isActive = page === activePage;
 
+    const viewRef = useRef<View>(null)
     const [canvasSize, setCanvasSize] = useState<CanvasSize>();
     const isCanvasLoading = canvasSize === undefined;
     const updateCanvasSize = useCallback(
@@ -161,6 +162,17 @@ function Lightbox({isAuthTokenRequired = false, uri, onScaleChanged: onScaleChan
     const isLightboxStillLoading = isLightboxVisible && !isLightboxImageLoaded;
     const isLoading = isActive && (isCanvasLoading || isFallbackStillLoading || isLightboxStillLoading);
 
+    useEffect(() => {
+        if (viewRef.current) {
+          viewRef.current.measure((x: number, y: number, width: number, height: number) => {
+            setCanvasSize({
+              width: PixelRatio.roundToNearestPixel(width),
+              height: PixelRatio.roundToNearestPixel(height),
+            });
+          });
+        }
+      }, []);
+
     // Resets the lightbox when it becomes inactive
     useEffect(() => {
         if (isLightboxVisible) {
@@ -202,8 +214,10 @@ function Lightbox({isAuthTokenRequired = false, uri, onScaleChanged: onScaleChan
 
     return (
         <View
+            ref={viewRef}
             style={[StyleSheet.absoluteFill, style]}
             onLayout={updateCanvasSize}
+            collapsable={false}
         >
             {!isCanvasLoading && (
                 <>
