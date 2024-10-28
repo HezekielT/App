@@ -7,6 +7,7 @@ import android.content.res.Configuration
 import android.database.CursorWindow
 import android.os.Process
 import androidx.multidex.MultiDexApplication
+import com.expensify.chat.CustomizedView.CustomizedViewPackage
 import com.expensify.chat.bootsplash.BootSplashPackage
 import com.expensify.chat.shortcutManagerModule.ShortcutManagerPackage
 import com.facebook.react.PackageList
@@ -34,6 +35,7 @@ class MainApplication : MultiDexApplication(), ReactApplication {
             add(BootSplashPackage())
             add(ExpensifyAppPackage())
             add(RNTextInputResetPackage())
+            add(CustomizedViewPackage())
         }
 
         override fun getJSMainModuleName() = ".expo/.virtual-metro-entry"
