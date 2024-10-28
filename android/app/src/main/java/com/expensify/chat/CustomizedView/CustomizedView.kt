@@ -30,7 +30,8 @@ class CustomizedView(context: Context): ReactViewGroup(context){
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
         Log.d("CustomizedView onLayout ", "onLayout - onLayout called - Changed: $changed")
-//        Even after calling post(measureAndLayout) in requestLayout() the  
+//        Even after calling post(measureAndLayout) in requestLayout() the  native side is failing to send
+//        the onLayout event to JS so we check if changed is true and send the event by calling sendOnLayoutEvent()
         if (changed) {
             sendOnLayoutEvent()  // Send layout event to JS
         }
