@@ -26,6 +26,7 @@ import shouldReplayVideo from './shouldReplayVideo';
 import type {VideoPlayerProps, VideoWithOnFullScreenUpdate} from './types';
 import * as VideoUtils from './utils';
 import VideoPlayerControls from './VideoPlayerControls';
+import {VideoCompatibilityChecker} from 'react-native-supported-video-checker';
 
 function BaseVideoPlayer({
     url,
@@ -94,6 +95,8 @@ function BaseVideoPlayer({
     const {videoPopoverMenuPlayerRef, currentPlaybackSpeed, setCurrentPlaybackSpeed, setSource: setPopoverMenuSource} = useVideoPopoverMenuContext();
     const {source} = videoPopoverMenuPlayerRef.current?.props ?? {};
     const shouldUseNewRate = typeof source === 'number' || !source || source.uri !== sourceURL;
+
+    console.log(sourceURL, "multiplication of 5 by 10 is ", VideoCompatibilityChecker(url));
 
     const togglePlayCurrentVideo = useCallback(() => {
         setIsEnded(false);

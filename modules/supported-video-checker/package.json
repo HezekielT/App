@@ -1,0 +1,19 @@
+{
+  "name": "react-native-supported-video-checker",
+  "version": "0.0.0",
+  "description": "checks if the video is playable(supported) by the device",
+  "main": "src/index",
+  "codegenConfig": {
+    "name": "RNSupportedVideoCheckerSpec",
+    "type": "modules",
+    "jsSrcsDir": "src"
+  },
+  "author": " <> ()",
+  "license": "UNLICENSED",
+  "homepage": "#readme",
+  "create-react-native-library": {
+    "type": "turbo-module",
+    "languages": "kotlin-objc",
+    "version": "0.48.1"
+  }
+}
