@@ -198,6 +198,7 @@ import Transfer from '@assets/images/transfer.svg';
 import Trashcan from '@assets/images/trashcan.svg';
 import Unlock from '@assets/images/unlock.svg';
 import UploadAlt from '@assets/images/upload-alt.svg';
+import VideoSlash from '@assets/images/video-slash.svg';
 import Upload from '@assets/images/upload.svg';
 import UserCheck from '@assets/images/user-check.svg';
 import UserEye from '@assets/images/user-eye.svg';
@@ -381,6 +382,7 @@ export {
     User,
     UserCheck,
     Users,
+    VideoSlash,
     VolumeHigh,
     VolumeLow,
     Wallet,
