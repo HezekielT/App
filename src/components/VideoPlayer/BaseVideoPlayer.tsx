@@ -52,6 +52,7 @@ function BaseVideoPlayer({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     isVideoHovered = false,
     isPreview,
+    reportID,
 }: VideoPlayerProps) {
     const styles = useThemeStyles();
     const {
@@ -65,6 +66,7 @@ function BaseVideoPlayer({
         updateCurrentlyPlayingURL,
         videoResumeTryNumberRef,
         setCurrentlyPlayingURL,
+        currentlyPlayingURLReportID,
     } = usePlaybackContext();
     const {isFullScreenRef} = useFullScreenContext();
     const {isOffline} = useNetwork();
@@ -313,7 +315,9 @@ function BaseVideoPlayer({
             if (shouldUseSharedVideoElement || videoPlayerRef.current !== currentVideoPlayerRef.current) {
                 return;
             }
-            currentVideoPlayerRef.current = null;
+            currentVideoPlayerRef.current?.setStatusAsync?.({shouldPlay: false, positionMillis: 0}).then(() => {
+                currentVideoPlayerRef.current = null;
+            });
         },
         [currentVideoPlayerRef, shouldUseSharedVideoElement],
     );
@@ -343,13 +347,14 @@ function BaseVideoPlayer({
         },
         [setCurrentlyPlayingURL, shouldUseSharedVideoElement],
     );
+
     // update shared video elements
     useEffect(() => {
-        if (shouldUseSharedVideoElement || url !== currentlyPlayingURL) {
+        if (shouldUseSharedVideoElement || url !== currentlyPlayingURL || reportID !== currentlyPlayingURLReportID) {
             return;
         }
         shareVideoPlayerElements(videoPlayerRef.current, videoPlayerElementParentRef.current, videoPlayerElementRef.current, isUploading || isFullScreenRef.current);
-    }, [currentlyPlayingURL, shouldUseSharedVideoElement, shareVideoPlayerElements, url, isUploading, isFullScreenRef]);
+    }, [currentlyPlayingURL, shouldUseSharedVideoElement, shareVideoPlayerElements, url, isUploading, isFullScreenRef, reportID, currentlyPlayingURLReportID]);
 
     // Call bindFunctions() through the refs to avoid adding it to the dependency array of the DOM mutation effect, as doing so would change the DOM when the functions update.
     const bindFunctionsRef = useRef<(() => void) | null>(null);
@@ -396,7 +401,7 @@ function BaseVideoPlayer({
             }
             newParentRef.childNodes[0]?.remove();
         };
-    }, [currentVideoPlayerRef, currentlyPlayingURL, isFullScreenRef, originalParent, sharedElement, shouldUseSharedVideoElement, url]);
+    }, [currentVideoPlayerRef, currentlyPlayingURL, currentlyPlayingURLReportID, isFullScreenRef, originalParent, reportID, sharedElement, shouldUseSharedVideoElement, url]);
 
     useEffect(() => {
         if (!shouldPlay) {
